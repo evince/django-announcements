@@ -1,13 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import list_detail
+from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
 
 from announcements.models import Announcement, current_announcements_for_request
 
-try:
-    set
-except NameError:
-    from sets import Set as set   # Python 2.3 fallback
 
 
 def announcement_list(request):
@@ -17,7 +13,7 @@ def announcement_list(request):
     announcements.
     """
     queryset = current_announcements_for_request(request)
-    return list_detail.object_list(request, **{
+    return ListView.as_view(request, **{
         "queryset": queryset,
         "allow_empty": True,
     })

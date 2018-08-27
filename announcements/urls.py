@@ -1,5 +1,5 @@
-from django.conf.urls.defaults import *
-from django.views.generic import list_detail
+from django.urls import path
+from django.views.generic.list import ListView
 
 from announcements.models import Announcement
 from announcements.views import *
@@ -9,10 +9,10 @@ announcement_detail_info = {
     "queryset": Announcement.objects.all(),
 }
 
-urlpatterns = patterns("",
-    url(r"^(?P<object_id>\d+)/$", list_detail.object_detail,
+urlpatterns = [
+    path('<int:object_id>/', ListView.as_view(),
         announcement_detail_info, name="announcement_detail"),
-    url(r"^(?P<object_id>\d+)/hide/$", announcement_hide,
+    path('<int:object_id>/hide/', announcement_hide,
         name="announcement_hide"),
-    url(r"^$", announcement_list, name="announcement_home"),
-)
+    path('', announcement_list, name="announcement_home"),
+]

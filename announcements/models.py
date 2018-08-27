@@ -3,13 +3,8 @@ from datetime import datetime
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-
-try:
-    set
-except NameError:
-    from sets import Set as set   # Python 2.3 fallback
 
 
 class AnnouncementManager(models.Manager):
@@ -48,7 +43,7 @@ class Announcement(models.Model):
     """
     title = models.CharField(_("title"), max_length=50)
     content = models.TextField(_("content"))
-    creator = models.ForeignKey(User, verbose_name=_("creator"))
+    creator = models.ForeignKey(User, verbose_name=_("creator"), on_delete=models.CASCADE)
     creation_date = models.DateTimeField(_("creation_date"), default=datetime.now)
     site_wide = models.BooleanField(_("site wide"), default=False)
     members_only = models.BooleanField(_("members only"), default=False)
@@ -59,7 +54,7 @@ class Announcement(models.Model):
         return ("announcement_detail", [str(self.pk)])
     get_absolute_url = models.permalink(get_absolute_url)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.title
     
     class Meta:
