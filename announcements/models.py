@@ -52,7 +52,6 @@ class Announcement(models.Model):
     
     def get_absolute_url(self):
         return ("announcement_detail", [str(self.pk)])
-    #get_absolute_url = models.permalink(get_absolute_url)
     
     def __str__(self):
         return self.title
