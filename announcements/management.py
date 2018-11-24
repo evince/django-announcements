@@ -1,5 +1,4 @@
-from django.db.models import get_models, signals
-
+from django.db.models import signals
 
 try:
     from notification import models as notification
@@ -11,6 +10,6 @@ try:
         """
         notification.create_notice_type("announcement", "Announcement", "you have received an announcement")
     
-    signals.post_syncdb.connect(create_notice_types, sender=notification)
+    signals.post_migrate.connect(create_notice_types, sender=notification)
 except ImportError:
-    print "Skipping creation of NoticeTypes as notification app not found"
+    print("Skipping creation of NoticeTypes as notification app not found")
