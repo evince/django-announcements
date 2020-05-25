@@ -26,7 +26,7 @@ def announcement_hide(request, object_id):
     announcement = get_object_or_404(Announcement, pk=object_id)
     # TODO: perform some basic security checks here to ensure next is not bad
     redirect_to = request.GET.get("next")
-    excluded_announcements = request.session.get("excluded_announcements", set())
-    excluded_announcements.add(announcement.pk)
+    excluded_announcements = request.session.get("excluded_announcements", list())
+    excluded_announcements.append(announcement.pk)
     request.session["excluded_announcements"] = excluded_announcements
     return HttpResponseRedirect(redirect_to)
